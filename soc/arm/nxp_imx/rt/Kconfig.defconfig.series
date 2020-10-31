@@ -62,6 +62,10 @@ config SPI_MCUX_LPSPI
 	default y if HAS_MCUX_LPSPI
 	depends on SPI
 
+config SPI_MCUX_FLEXSPI
+	bool
+	default y if HAS_MCUX_FLEXSPI
+
 config WDT_MCUX_IMX_WDOG
 	default y
 	depends on WATCHDOG
