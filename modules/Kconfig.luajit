@@ -1,0 +1,9 @@
+# Luajit Zephyr
+
+# Copyright (c) 2020 Jernej Turnsek
+# SPDX-License-Identifier: Apache-2.0
+
+config LUAJIT
+	bool "LuaJIT Support"
+	help
+	  This option enables the LuaJIT library.

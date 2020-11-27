@@ -11,6 +11,9 @@
 #include <logging/log.h>
 #include <usb/usb_device.h>
 #include <stdio.h>
+#include <lua.h>
+#include <lualib.h>
+#include <lauxlib.h>
 
 LOG_MODULE_REGISTER(main);
 
@@ -118,7 +121,8 @@ out:
 
 void main(void)
 {
-	int ret;
+	int ret, stat;
+	lua_State *L;
 
 	setup_disk();
 
@@ -127,6 +131,21 @@ void main(void)
 		LOG_ERR("Failed to enable USB");
 		return;
 	}
+
+	L = luaL_newstate();
+	if (!L) {
+		LOG_ERR("Failed to initialize LuaState");	
+	}
+
+	luaL_openlibs(L);
+
+	stat = luaL_loadfile(L,"test.lua");
+	ret = lua_pcall(L, 0, 0, 0);
+	if (ret != 0) {
+		LOG_ERR("LuaJIT Error");	
+	}
+
+	lua_close(L);
 
 	LOG_INF("The device is put in USB mass storage mode.\n");
 }

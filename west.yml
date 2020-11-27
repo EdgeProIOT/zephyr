@@ -140,6 +140,10 @@ manifest:
     - name: trusted-firmware-m
       path: modules/tee/tfm
       revision: dfc26a443c43514867090fee2ff82be809ae40b0
+    - name: LuaJIT
+      path: modules/lib/LuaJIT
+      url: https://github.com/jturnsek/LuaJIT.git
+      revision: zephyr
 
   self:
     path: zephyr
