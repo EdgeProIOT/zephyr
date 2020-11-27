@@ -148,6 +148,11 @@ manifest:
       repo-path: mcuboot
       path: modules/tee/tfm-mcuboot
       revision: 1.7.0-rc1
+      revision: dfc26a443c43514867090fee2ff82be809ae40b0
+    - name: LuaJIT
+      path: modules/lib/LuaJIT
+      url: https://github.com/jturnsek/LuaJIT.git
+      revision: zephyr
 
   self:
     path: zephyr
