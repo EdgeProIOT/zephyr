@@ -17,7 +17,7 @@
 
 LOG_MODULE_REGISTER(main);
 
-#if CONFIG_DISK_ACCESS_FLASH
+//#if CONFIG_DISK_ACCESS_FLASH
 #include <storage/flash_map.h>
 #if CONFIG_FAT_FILESYSTEM_ELM
 #include <fs/fs.h>
@@ -46,11 +46,11 @@ static struct fs_mount_t fs_mnt = {
 #else
 #error No recognized file system
 #endif  /* file system */
-#endif  /* CONFIG_DISK_ACCESS_FLASH */
+//#endif  /* CONFIG_DISK_ACCESS_FLASH */
 
 static void setup_disk(void)
 {
-#if CONFIG_DISK_ACCESS_FLASH
+//#if CONFIG_DISK_ACCESS_FLASH
 	struct fs_mount_t *mp = &fs_mnt;
 	unsigned int id = (uintptr_t)mp->storage_dev;
 	int rc;
@@ -116,7 +116,7 @@ static void setup_disk(void)
 
 out:
 	flash_area_close(pfa);
-#endif
+//#endif
 }
 
 void main(void)
@@ -131,7 +131,7 @@ void main(void)
 		LOG_ERR("Failed to enable USB");
 		return;
 	}
-
+#if 1
 	L = luaL_newstate();
 	if (!L) {
 		LOG_ERR("Failed to initialize LuaState");	
@@ -139,13 +139,13 @@ void main(void)
 
 	luaL_openlibs(L);
 
-	stat = luaL_loadfile(L,"test.lua");
+	stat = luaL_loadfile(L,"/NAND:/test.lua");
 	ret = lua_pcall(L, 0, 0, 0);
 	if (ret != 0) {
 		LOG_ERR("LuaJIT Error");	
 	}
 
 	lua_close(L);
-
+#endif
 	LOG_INF("The device is put in USB mass storage mode.\n");
 }
