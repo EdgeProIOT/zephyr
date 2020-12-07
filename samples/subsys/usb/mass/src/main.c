@@ -16,7 +16,7 @@
 
 LOG_MODULE_REGISTER(main);
 
-#if CONFIG_DISK_ACCESS_FLASH
+//#if CONFIG_DISK_ACCESS_FLASH
 #include <storage/flash_map.h>
 #endif
 
@@ -170,7 +170,7 @@ void main(void)
 		LOG_ERR("Failed to enable USB");
 		return;
 	}
-
+#if 1
 	L = luaL_newstate();
 	if (!L) {
 		LOG_ERR("Failed to initialize LuaState");	
@@ -178,13 +178,13 @@ void main(void)
 
 	luaL_openlibs(L);
 
-	stat = luaL_loadfile(L,"test.lua");
+	stat = luaL_loadfile(L,"/NAND:/test.lua");
 	ret = lua_pcall(L, 0, 0, 0);
 	if (ret != 0) {
 		LOG_ERR("LuaJIT Error");	
 	}
 
 	lua_close(L);
-
+#endif
 	LOG_INF("The device is put in USB mass storage mode.\n");
 }
