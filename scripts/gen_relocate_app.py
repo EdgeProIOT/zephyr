@@ -395,7 +395,7 @@ def create_dict_wrt_mem():
     if args.input_rel_dict == '':
         sys.exit("Disable CONFIG_CODE_DATA_RELOCATION if no file needs relocation")
     for line in args.input_rel_dict.split(';'):
-        mem_region, file_name = line.split(':')
+        mem_region, file_name = line.split(':', 1)
 
         file_name_list = glob.glob(file_name)
         if not file_name_list:
@@ -438,7 +438,7 @@ def main():
                 continue
 
             full_list_of_sections = find_sections(obj_filename, full_list_of_sections)
-
+            print(full_list_of_sections)
         # cleanup and attach the sections to the memory type after cleanup.
         complete_list_of_sections = assign_to_correct_mem_region(memory_type,
                                                                  full_list_of_sections,

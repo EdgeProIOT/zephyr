@@ -9,6 +9,7 @@ FILE(GLOB app_sources src/*.c)
 target_sources(app PRIVATE ${app_sources})
 
 # Code relocation feature
+#zephyr_code_relocate(src/main.c SRAM)
 zephyr_code_relocate(src/test_file1.c SRAM2)
 
 zephyr_code_relocate(src/test_file2.c SRAM)
