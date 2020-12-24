@@ -238,7 +238,7 @@ config SOC_MIMXRT1064
 	select HAS_MCUX_EDMA
 	select HAS_MCUX_FLEXCAN
 	select HAS_MCUX_FLEXSPI
-
+	select HAS_MCUX_FLEXRAM
 endchoice
 
 if SOC_SERIES_IMX_RT
