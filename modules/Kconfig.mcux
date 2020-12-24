@@ -67,6 +67,11 @@ config HAS_MCUX_FLEXSPI
 	help
 	  Set if the FlexSPI module is presents in the SoC.
 
+config HAS_MCUX_FLEXRAM
+	bool
+	help
+	  Set if the FlexRAM module is presents in the SoC.
+
 config HAS_MCUX_FLEXCOMM
 	bool
 	help

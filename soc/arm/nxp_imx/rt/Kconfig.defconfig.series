@@ -66,6 +66,10 @@ config SPI_MCUX_FLEXSPI
 	bool
 	default y if HAS_MCUX_FLEXSPI
 
+config MCUX_FLEXRAM
+	bool
+	default y if HAS_MCUX_FLEXRAM
+
 config WDT_MCUX_IMX_WDOG
 	default y
 	depends on WATCHDOG

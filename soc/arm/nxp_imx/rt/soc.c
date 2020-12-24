@@ -14,6 +14,7 @@
 #include <arch/cpu.h>
 #include <arch/arm/aarch32/cortex_m/cmsis.h>
 #include <fsl_flexspi_nor_boot.h>
+#include <fsl_flexram_allocate.h>
 #if CONFIG_USB_DC_NXP_EHCI
 #include "usb_phy.h"
 #include "usb_dc_mcux.h"
@@ -272,8 +273,16 @@ static int imxrt_init(const struct device *arg)
 
 	unsigned int oldLevel; /* old interrupt lock level */
 
+	// flexram_allocate_ram_t ramAllocate = {
+	// 	.ocramBankNum = 0,
+	// 	.dtcmBankNum  = 8,
+	// 	.itcmBankNum  = 8,
+	// };
+
 	/* disable interrupts */
 	oldLevel = irq_lock();
+
+	// FLEXRAM_AllocateRam(&ramAllocate);
 
 	/* Watchdog disable */
 	if ((WDOG1->WCR & WDOG_WCR_WDE_MASK) != 0) {
