@@ -10,13 +10,10 @@
 #include <usb/usb_device.h>
 #include <fs/fs.h>
 #include <stdio.h>
-#include <lua.h>
-#include <lualib.h>
-#include <lauxlib.h>
 
 LOG_MODULE_REGISTER(main);
 
-//#if CONFIG_DISK_ACCESS_FLASH
+#if CONFIG_DISK_ACCESS_FLASH
 #include <storage/flash_map.h>
 #endif
 
@@ -24,7 +21,6 @@ LOG_MODULE_REGISTER(main);
 #include <ff.h>
 #endif
 
-#if CONFIG_FILE_SYSTEM_LITTLEFS
 #include <fs/littlefs.h>
 FS_LITTLEFS_DECLARE_DEFAULT_CONFIG(storage);
 #endif
@@ -160,8 +156,7 @@ static void setup_disk(void)
 
 void main(void)
 {
-	int ret, stat;
-	lua_State *L;
+	int ret;
 
 	setup_disk();
 
@@ -170,21 +165,6 @@ void main(void)
 		LOG_ERR("Failed to enable USB");
 		return;
 	}
-#if 1
-	L = luaL_newstate();
-	if (!L) {
-		LOG_ERR("Failed to initialize LuaState");	
-	}
 
-	luaL_openlibs(L);
-
-	stat = luaL_loadfile(L,"/NAND:/test.lua");
-	ret = lua_pcall(L, 0, 0, 0);
-	if (ret != 0) {
-		LOG_ERR("LuaJIT Error");	
-	}
-
-	lua_close(L);
-#endif
 	LOG_INF("The device is put in USB mass storage mode.\n");
 }

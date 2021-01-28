@@ -267,6 +267,12 @@ void imxrt_usdhc_pinmux(uint16_t nusdhc, bool init,
 }
 #endif
 
+void z_platform_init(void)
+{
+	IOMUXC_GPR->GPR17 = 0xAAFFAAAA; /* 128KB ITCM, 384KB DTCM */
+	IOMUXC_GPR->GPR16 |= IOMUXC_GPR_GPR16_FLEXRAM_BANK_CFG_SEL(1);
+}
+
 /**
  *
  * @brief Perform basic hardware initialization
@@ -283,16 +289,8 @@ static int imxrt_init(const struct device *arg)
 
 	unsigned int oldLevel; /* old interrupt lock level */
 
-	// flexram_allocate_ram_t ramAllocate = {
-	// 	.ocramBankNum = 0,
-	// 	.dtcmBankNum  = 8,
-	// 	.itcmBankNum  = 8,
-	// };
-
 	/* disable interrupts */
 	oldLevel = irq_lock();
-
-	// FLEXRAM_AllocateRam(&ramAllocate);
 
 	/* Watchdog disable */
 	if ((WDOG1->WCR & WDOG_WCR_WDE_MASK) != 0) {
