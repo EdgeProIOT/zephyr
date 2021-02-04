@@ -142,7 +142,7 @@ manifest:
       revision: dfc26a443c43514867090fee2ff82be809ae40b0
     - name: LuaJIT
       path: modules/lib/LuaJIT
-      url: https://github.com/jturnsek/LuaJIT.git
+      url: https://github.com/EdgeProIOT/LuaJIT.git
       revision: zephyr
 
   self:
