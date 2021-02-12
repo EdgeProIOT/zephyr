@@ -311,7 +311,11 @@ int z_impl_zephyr_write_stdout(const char *buf, int nbytes);
 
 static ssize_t stdinout_read_vmeth(void *obj, void *buffer, size_t count)
 {
+#if defined(CONFIG_NEWLIB_LIBC)
+	return z_impl_zephyr_read_stdin(buffer, count);
+#else
 	return 0;
+#endif
 }
 
 static ssize_t stdinout_write_vmeth(void *obj, const void *buffer, size_t count)

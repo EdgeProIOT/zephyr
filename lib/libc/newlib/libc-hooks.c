@@ -156,6 +156,7 @@ int z_impl_zephyr_read_stdin(char *buf, int nbytes)
 	for (i = 0; i < nbytes; i++) {
 		*(buf + i) = _stdin_hook();
 		if ((*(buf + i) == '\n') || (*(buf + i) == '\r')) {
+			*(buf + i) = '\n';
 			i++;
 			break;
 		}

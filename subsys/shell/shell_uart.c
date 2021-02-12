@@ -286,6 +286,35 @@ const struct shell_transport_api shell_uart_transport_api = {
 #endif /* CONFIG_MCUMGR_SMP_SHELL */
 };
 
+static unsigned char uart_stdin(void)
+{
+	struct shell *shell = &shell_uart;
+	struct k_poll_signal *signal;
+	int err, set, res;
+	unsigned char data = 0;
+
+	/* waiting for all signals except SHELL_SIGNAL_TXDONE */
+	err = k_poll(shell->ctx->events, SHELL_SIGNAL_TXDONE, K_FOREVER);
+	if (err != 0) {
+		k_mutex_lock(&shell->ctx->wr_mtx, K_FOREVER);
+		z_shell_fprintf(shell, SHELL_ERROR,
+				"Shell stdin error: %d", err);
+		k_mutex_unlock(&shell->ctx->wr_mtx);
+		return 0;
+	}
+	k_mutex_lock(&shell->ctx->wr_mtx, K_FOREVER);
+	signal = &shell->ctx->signals[SHELL_SIGNAL_RXRDY];
+    k_poll_signal_check(signal, &set, &res);
+    if (set) {
+		size_t count = 0;
+        
+        k_poll_signal_reset(signal);
+        (void)shell->iface->api->read(shell->iface, &data, sizeof(data), &count);
+	}
+	k_mutex_unlock(&shell->ctx->wr_mtx);
+	return data;
+}
+
 static int enable_shell_uart(const struct device *arg)
 {
 	ARG_UNUSED(arg);
@@ -305,6 +334,8 @@ static int enable_shell_uart(const struct device *arg)
 	}
 
 	shell_init(&shell_uart, dev, true, log_backend, level);
+
+	__stdin_hook_install(uart_stdin);
 
 	return 0;
 }
